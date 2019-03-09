@@ -26,10 +26,76 @@ header {
 	font-size: 111%;
 	text-emphasis: bold;
 	color: #FFFFFF;
-	padding: 3px;
+	padding: 0px;
 	margin: auto;
 }
 
 .header {
 	background-color: #000000bb;
+	width: 77%;
 }
+
+.space {
+	min-height: 50px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+form {
+	background: rgb(11, 76, 129);
+	position: fixed;
+	padding: 15px;
+	width: 100%;
+	bottom: 0;
+}
+
+form input {
+	padding: 10px;
+	min-height: 100px;
+	width: 100%;
+}
+
+form button {
+	width: 100%;
+	border: none;
+	padding: 10px;
+	margin-top: 15px;
+}
+
+#messages {
+	display: block;
+	list-style-type: none;
+	padding: auto;
+	align-content: left;
+}
+
+#messages li {
+	padding: 5px 10px;
+	min-height: 34px;
+}
+
+#messages li:nth-child(odd) {
+	background: rgba(140, 206, 206, 0.61);
+}
+
+#message-time {
+	display: block;
+	list-style-type: none;
+	padding: auto;
+	align-content: right;
+}
+
+#message-time li {
+	padding: 5px 10px;
+	min-height: 34px;
+}
+
+#message-time li:nth-child(odd) {
+	background: rgba(140, 206, 206, 0.61);
+}
+
+@media (max-width: 525px) {}

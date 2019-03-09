@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="shortcut icon" type="image/x-icon" href="Resources/favicon.png">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="http://localhost:3000/styles.css">
+	<title>Assignment 3</title>
+</head>
+
+<body>
+	<div class='container-fluid'>
+		<header class='header'>
+			<h1>UltraChat Online</h1>
+		</header>
+	</div>
+
+	<div class='space'></div>
+
+	<div class='container'>
+		<div class='row'>
+			<div class='col-sm'>
+				<ul id="messages"></ul>
+			</div>
+
+			<div class='col-sm'>
+				<ul id="message-time"></ul>
+			</div>
+		</div>
+	</div>
+
+	<form action="">
+		<input id="m" autocomplete="off" /><button>Send</button>
+	</form>
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+$(function() {
+	var socket = io();
+
+	$('form').submit(function(e) {
+		e.preventDefault();
+
+		socket.emit('chat message', $('#m').val());
+		$('#m').val('');
+
+		socket.emit('timeStamp', $('#t').val());
+		$('#t').val('');
+		return false;
+	});
+
+	socket.on('chat message', function(msg) {
+		$('#messages').append($('<li>').text(msg));
+	});
+
+	socket.on('timeStamp', function(time) {
+		$('#message-time').append($('<li>').text(time));
+	});
+});
+
+</script>
+
+</html>

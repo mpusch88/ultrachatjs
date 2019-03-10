@@ -2,9 +2,9 @@
 	"name": "ultrachatjs",
 	"version": "1.0.0",
 	"description": "ultrachat online",
-	"main": "src/chat.js",
+	"main": "files/chat.js",
 	"scripts": {
-		"start": "node src/chat.js"
+		"start": "node files/chat.js"
 	},
 	"repository": {
 		"type": "git",

@@ -14,6 +14,10 @@ app.get('/styles.css', function(req, res) {
 	res.sendFile(__dirname + '/styles.css');
 });
 
+app.get('/favicon.png', function(req, res) {
+	res.sendFile(__dirname + '/favicon.png');
+});
+
 io.on('connection', function(socket) {
 	console.log('User connected...');
 

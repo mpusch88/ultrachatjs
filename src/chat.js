@@ -4,7 +4,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-// app.use(express.static('public'));
+var users = {};
 
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
@@ -17,13 +17,26 @@ app.get('/styles.css', function(req, res) {
 io.on('connection', function(socket) {
 	console.log('User connected...');
 
-	socket.on('disconnect', function() {
-		console.log('User disconnected...');
+	socket.on('connect', function(user) {
+		io.emit('User ' + user + ' connected');
 	});
 
-	socket.on('chat message', function(msg) {
-		var time = moment(msg.time).format('dddd, MMMM Do, YYYY h:mm:ss A');
-		io.emit('chat message', msg);
+	socket.on('disconnect', function(user) {
+		console.log('User disconnected...');
+		io.emit('User ' + user + ' disconnected');
+	});
+
+	socket.on('message', function(msg) {
+
+		let time = moment(msg.time).format('MMM Do h:mm a');
+
+		if (moment().isSame(moment(msg.time), 'day')) {
+			time = moment(msg.time).format('h:mm a');
+		} else if (moment().subtract(1, 'day').isSame(moment(msg.time), 'day')) {
+			time = 'Yesterday ' + moment(msg.time).format('h:mm a');
+		}
+
+		io.emit('message', msg);
 		io.emit('timeStamp', time);
 	});
 });

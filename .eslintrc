@@ -1,6 +1,5 @@
 {
 	"parser": "babel-eslint",
-	"plugins": ["react"],
 	"env": {
 		"browser": true,
 		"node": true
@@ -12,5 +11,5 @@
 		"no-unused-vars": "warn",
 		"react/prop-types": "off"
 	},
-	"extends": ["eslint:recommended", "plugin:react/recommended"]
+	"extends": ["eslint:recommended"]
 }

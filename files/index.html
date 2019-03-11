@@ -1,77 +1,147 @@
 <!doctype html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
-        <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-            crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="http://localhost:3000/styles.css">
-        <title>Assignment 3</title>
-    </head>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="http://localhost:3000/styles.css">
+	<title>Assignment 3</title>
+</head>
 
-    <body>
-        <div class='container-fluid'>
-            <header class='header'>
-                <h1>UltraChat Online</h1>
-            </header>
-        </div>
+<body>
+	<div class='container-fluid'>
+		<header class='header'>
+			<h1>UltraChat Online</h1>
+		</header>
+	</div>
 
-        <div class='space'></div>
+	<div class='space'></div>
 
-        <div class='chat-container'>
+	<div class='chat-container'>
 
-            <div class='container'>
-                <div class='row'>
-                    <div class='col-sm'>
-                        <ul id="messages"></ul>
-                    </div>
+		<div class='container'>
+			<div class='row'>
+				<div class='col-sm'>
+					<ul id="messages"></ul>
+				</div>
 
-                    <div class='user-display'></div>
+				<div class='user-display'></div>
 
-                    <div class='col-sm'>
-                        <ul id="message-time"></ul>
-                    </div>
-                </div>
-            </div>
+				<div class='col-sm'>
+					<ul id="message-time"></ul>
+				</div>
+			</div>
+		</div>
 
-            <form action="">
-                <input id="m" autocomplete="off"/>
-                <button>Send</button>
-            </form>
+		<form action="">
+			<input id="m" autocomplete="off" />
+			<button>Send</button>
+		</form>
 
-        </div>
-    </body>
+	</div>
+</body>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-        $(function () {
-            var socket = io();
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+$(function() {
+	var socket = io();
 
-            $('form').submit(function (e) {
-                e.preventDefault();
+	$('form').submit(function(e) {
+		e.preventDefault();
 
-                socket.emit('message', $('#m').val());
-				$('#m').val('');
-				
-				return false;
-            });
+		socket.emit('message', $('#m').val());
+		$('#m').val('');
 
-            socket.on('message', function (msg) {
-                $('#messages').append($('<li>').text(msg));
-            });
+		return false;
+	});
 
-            socket.on('timeStamp', function (time) {
-                $('#message-time').append($('<li>').text(time));
-            });
-        });
-    </script>
+	socket.on('message', function(msg) {
+		$('#messages').append($('<li>').text(msg));
+	});
+
+	socket.on('timeStamp', function(time) {
+		$('#message-time').append($('<li>').text(time));
+	});
+});
+
+
+// $(document).ready(function() {
+// 	var socket = io.connect("1.2.3.4:1223");
+// 	$("#chat").hide();
+// 	$("#name").focus();
+// 	$("form").submit(function(event) {
+// 		event.preventDefault();
+// 	});
+
+// 	$("#join").click(function() {
+// 		var name = $("#name").val();
+// 		if (name != "") {
+// 			socket.emit("join", name);
+// 			$("#login").detach();
+// 			$("#chat").show();
+// 			$("#msg").focus();
+// 			ready = true;
+// 		}
+// 	});
+
+// 	$("#name").keypress(function(e) {
+// 		if (e.which == 13) {
+// 			var name = $("#name").val();
+// 			if (name != "") {
+// 				socket.emit("join", name);
+// 				ready = true;
+// 				$("#login").detach();
+// 				$("#chat").show();
+// 				$("#msg").focus();
+// 			}
+// 		}
+// 	});
+
+// 	socket.on("update", function(msg) {
+// 		if (ready)
+// 			$("#msgs").append("" + msg + "");
+// 	})
+
+// 	socket.on("update-people", function(people) {
+// 		if (ready) {
+// 			$("#people").empty();
+// 			$.each(people, function(clientid, name) {
+// 				$('#people').append("" + name + "");
+// 			});
+// 		}
+// 	});
+
+// 	socket.on("chat", function(who, msg) {
+// 		if (ready) {
+// 			$("#msgs").append("" + who + " says: " + msg + "");
+// 		}
+// 	});
+
+// 	socket.on("disconnect", function() {
+// 		$("#msgs").append("The server is not available");
+// 		$("#msg").attr("disabled", "disabled");
+// 		$("#send").attr("disabled", "disabled");
+// 	});
+
+
+// 	$("#send").click(function() {
+// 		var msg = $("#msg").val();
+// 		socket.emit("send", msg);
+// 		$("#msg").val("");
+// 	});
+
+// 	$("#msg").keypress(function(e) {
+// 		if (e.which == 13) {
+// 			var msg = $("#msg").val();
+// 			socket.emit("send", msg);
+// 			$("#msg").val("");
+// 		}
+// 	});
+// })
+
+</script>
 
 </html>

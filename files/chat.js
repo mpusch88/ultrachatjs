@@ -18,19 +18,27 @@ app.get('/favicon.png', function(req, res) {
 	res.sendFile(__dirname + '/favicon.png');
 });
 
-io.on('connection', function(socket) {
-	console.log('User connected...');
 
-	socket.on('connect', function(user) {
-		io.emit('User ' + user + ' connected');
+io.on('connection', function(client) {
+
+	client.on('connect', function(userName) {
+		users[client.id] = userName;
+		client.emit('update', 'Connected to server...');
+		io.emit('update', userName + ' connected');
+		io.emit('update-users', users);
 	});
 
-	socket.on('disconnect', function(user) {
-		console.log('User disconnected...');
-		io.emit('User ' + user + ' disconnected');
+	client.on('send', function(msg) {
+		io.emit('chat', users[client.id], msg);
 	});
 
-	socket.on('message', function(msg) {
+	client.on('disconnect', function() {
+		io.emit('update', users[client.id] + ' disconnected');
+		delete users[client.id];
+		io.emit('update-users', users);
+	});
+
+	client.on('message', function(msg) {
 
 		let time = moment(msg.time).format('MMM Do h:mm a');
 

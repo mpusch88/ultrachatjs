@@ -60,6 +60,13 @@ $(function() {
 		return false;
 	});
 
+	socket.on("connect", function(users) {
+		$("#users").empty();
+		$.each(users, function(clientid, name) {
+			$('#users').append("" + name + "");
+		});
+	});
+
 	socket.on('message', function(msg) {
 		$('#messages').append($('<li>').text(msg));
 	});
@@ -67,27 +74,16 @@ $(function() {
 	socket.on('timeStamp', function(time) {
 		$('#message-time').append($('<li>').text(time));
 	});
+
+	socket.on("update-users", function(users) {
+		$("#users").empty();
+
+		$.each(users, function(clientid, name) {
+			$('#users').append("" + name + "");
+		});
+	});
 });
 
-
-// $(document).ready(function() {
-// 	var socket = io.connect("1.2.3.4:1223");
-// 	$("#chat").hide();
-// 	$("#name").focus();
-// 	$("form").submit(function(event) {
-// 		event.preventDefault();
-// 	});
-
-// 	$("#join").click(function() {
-// 		var name = $("#name").val();
-// 		if (name != "") {
-// 			socket.emit("join", name);
-// 			$("#login").detach();
-// 			$("#chat").show();
-// 			$("#msg").focus();
-// 			ready = true;
-// 		}
-// 	});
 
 // 	$("#name").keypress(function(e) {
 // 		if (e.which == 13) {
@@ -107,14 +103,7 @@ $(function() {
 // 			$("#msgs").append("" + msg + "");
 // 	})
 
-// 	socket.on("update-people", function(people) {
-// 		if (ready) {
-// 			$("#people").empty();
-// 			$.each(people, function(clientid, name) {
-// 				$('#people').append("" + name + "");
-// 			});
-// 		}
-// 	});
+
 
 // 	socket.on("chat", function(who, msg) {
 // 		if (ready) {

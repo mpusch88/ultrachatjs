@@ -2,9 +2,9 @@
 	"name": "ultrachatjs",
 	"version": "1.0.0",
 	"description": "ultrachat online",
-	"main": "src/chat.js",
+	"main": "files/chat.js",
 	"scripts": {
-		"start": "node src/chat.js"
+		"start": "node files/chat.js"
 	},
 	"repository": {
 		"type": "git",
@@ -17,6 +17,14 @@
 	},
 	"homepage": "https://github.com/mpusch88/mpusch88.github.io#readme",
 	"dependencies": {
-		"express": "^4.16.4"
+		"babel-eslint": "^10.0.1",
+		"express": "^4.16.4",
+		"moment": "^2.24.0",
+		"socket.io": "^2.2.0"
+	},
+	"devDependencies": {
+		"eslint": "^5.15.1",
+		"eslint-config-airbnb-base": "^13.1.0",
+		"eslint-plugin-import": "^2.16.0"
 	}
 }

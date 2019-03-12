@@ -18,22 +18,22 @@ app.get('/favicon.png', function(req, res) {
 	res.sendFile(__dirname + '/favicon.png');
 });
 
-io.on('connection', function(client) {
+io.on('connection', function(socket) {
 
-	client.on('connect', function(userName) {
-		users[client.id] = userName;
-		client.emit('update', 'Connected to server...');
-		io.emit('update', userName + ' connected');
+	socket.on('connect', function(user) {
+		users[socket.id] = user;
+		socket.emit('update', 'Connected to server...');
+		io.emit('update', user + ' connected');
 		io.emit('update-users', users);
 	});
 
-	client.on('disconnect', function() {
-		io.emit('update', users[client.id] + ' disconnected');
-		delete users[client.id];
+	socket.on('disconnect', function() {
+		io.emit('update', users[socket.id] + ' disconnected');
+		delete users[socket.id];
 		io.emit('update-users', users);
 	});
 
-	client.on('message', function(msg) {
+	socket.on('message', function(msg) {
 		let time = moment(msg.time).format('MMM Do h:mm a');
 
 		if (moment().isSame(moment(msg.time), 'day')) {
@@ -42,7 +42,7 @@ io.on('connection', function(client) {
 			time = 'Yesterday ' + moment(msg.time).format('h:mm a');
 		}
 
-		io.emit('message', users[client.id], msg);
+		io.emit('message', users[socket.id], msg);
 		io.emit('timeStamp', time);
 	});
 });

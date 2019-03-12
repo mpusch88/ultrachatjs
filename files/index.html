@@ -22,21 +22,21 @@
 	<div class='chat-container'>
 
 		<div class='container'>
+
+			<div class='user-display' id='users'>
+				User_0
+			</div>
+
 			<div class='row'>
 				<div class='col-sm'>
 					<ul id="messages"></ul>
 				</div>
 
-				<div class='user-display'></div>
-
-				<div class='col-sm'>
-					<ul id="message-time"></ul>
-				</div>
 			</div>
 		</div>
 
-		<form action="">
-			<input id="m" autocomplete="off" />
+		<form>
+			<input id="m" autocomplete="off" type='text' placeholder="Type a message..." />
 			<button>Send</button>
 		</form>
 
@@ -62,18 +62,26 @@ $(function() {
 
 	socket.on("connect", function(users) {
 		$("#users").empty();
-		$.each(users, function(clientid, name) {
+
+		$.each(users, function(name) {
 			$('#users').append("" + name + "");
 		});
+
+		socket.emit("join", name);
 	});
 
-	socket.on('message', function(msg) {
-		$('#messages').append($('<li>').text(msg));
+	socket.on('message', function(userId, msg) {
+		$('#messages').append("" + msg + "");
+		$("#m").append("" + userId + " says: " + msg + "");
 	});
 
 	socket.on('timeStamp', function(time) {
-		$('#message-time').append($('<li>').text(time));
+		$('#message-time').append("" + time + "");
 	});
+
+	socket.on("update", function(msg) {
+		$("#msgs").append("" + msg + "");
+	})
 
 	socket.on("update-users", function(users) {
 		$("#users").empty();
@@ -82,56 +90,11 @@ $(function() {
 			$('#users').append("" + name + "");
 		});
 	});
+
+	socket.on("disconnect", function() {
+		$("#msgs").append("The server is not available");
+	});
 });
-
-
-// 	$("#name").keypress(function(e) {
-// 		if (e.which == 13) {
-// 			var name = $("#name").val();
-// 			if (name != "") {
-// 				socket.emit("join", name);
-// 				ready = true;
-// 				$("#login").detach();
-// 				$("#chat").show();
-// 				$("#msg").focus();
-// 			}
-// 		}
-// 	});
-
-// 	socket.on("update", function(msg) {
-// 		if (ready)
-// 			$("#msgs").append("" + msg + "");
-// 	})
-
-
-
-// 	socket.on("chat", function(who, msg) {
-// 		if (ready) {
-// 			$("#msgs").append("" + who + " says: " + msg + "");
-// 		}
-// 	});
-
-// 	socket.on("disconnect", function() {
-// 		$("#msgs").append("The server is not available");
-// 		$("#msg").attr("disabled", "disabled");
-// 		$("#send").attr("disabled", "disabled");
-// 	});
-
-
-// 	$("#send").click(function() {
-// 		var msg = $("#msg").val();
-// 		socket.emit("send", msg);
-// 		$("#msg").val("");
-// 	});
-
-// 	$("#msg").keypress(function(e) {
-// 		if (e.which == 13) {
-// 			var msg = $("#msg").val();
-// 			socket.emit("send", msg);
-// 			$("#msg").val("");
-// 		}
-// 	});
-// })
 
 </script>
 

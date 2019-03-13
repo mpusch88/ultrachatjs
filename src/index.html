@@ -29,10 +29,12 @@
 
 			<div class='row'>
 				<div class='col-sm'>
-					<ul id="messages"></ul>
+					<div class="scrollbars">
+						<ul id="messages"></ul>
+					</div>
 				</div>
-
 			</div>
+
 		</div>
 
 		<form>
@@ -61,13 +63,13 @@ $(function() {
 	});
 
 	socket.on("connect", function(users) {
-		$("#users").empty();
+		$("#users").val('');
 
 		$.each(users, function(name) {
 			$('#users').append("" + name + "");
 		});
 
-		socket.emit("join", name);
+		socket.emit("connect", name);
 	});
 
 	socket.on("disconnect", function() {
@@ -91,6 +93,7 @@ $(function() {
 		});
 	});
 });
+
 </script>
 
 </html>

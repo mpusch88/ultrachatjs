@@ -5,6 +5,7 @@ var io = require('socket.io')(http);
 var moment = require('moment');
 
 var users = {};
+var count = 0;
 
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
@@ -19,15 +20,13 @@ app.get('/favicon.png', function(req, res) {
 });
 
 io.on('connection', function(socket) {
-	console.log('User connected...');
+	count++;
+	console.log('User' + count + ' connected...');
+	io.emit('join', 'User joined...');
 
-	socket.on('connect', function(user) {
-		io.emit('User ' + user + ' connected');
-	});
-
-	socket.on('disconnect', function(user) {
-		console.log('User disconnected...');
-		io.emit('User ' + user + ' disconnected');
+	socket.on('disconnect', function() {
+		var dc = 'User disconnected...';
+		io.emit('dc', dc);
 	});
 
 	socket.on('message', function(msg) {

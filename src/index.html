@@ -70,13 +70,13 @@ $(function() {
 		socket.emit("join", name);
 	});
 
+	socket.on("disconnect", function() {
+		$("#msgs").append("The server is not available");
+	});
+
 	socket.on('message', function(userId, msg) {
 		$('#messages').append("" + msg + "");
 		$("#m").append("" + userId + " says: " + msg + "");
-	});
-
-	socket.on('timeStamp', function(time) {
-		$('#message-time').append("" + time + "");
 	});
 
 	socket.on("update", function(msg) {
@@ -90,12 +90,7 @@ $(function() {
 			$('#users').append("" + name + "");
 		});
 	});
-
-	socket.on("disconnect", function() {
-		$("#msgs").append("The server is not available");
-	});
 });
-
 </script>
 
 </html>

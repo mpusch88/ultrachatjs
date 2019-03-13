@@ -22,7 +22,9 @@ io.on('connection', function(socket) {
 
 	socket.on('connect', function(user) {
 		users[socket.id] = user;
+
 		socket.emit('update', 'Connected to server...');
+
 		io.emit('update', user + ' connected');
 		io.emit('update-users', users);
 	});
@@ -42,8 +44,9 @@ io.on('connection', function(socket) {
 			time = 'Yesterday ' + moment(msg.time).format('h:mm a');
 		}
 
-		io.emit('message', users[socket.id], msg);
-		io.emit('timeStamp', time);
+		msg = time + ' ' + users[socket.id] + ' ' + msg;
+		console.log(msg);
+		io.emit('message', msg);
 	});
 });
 

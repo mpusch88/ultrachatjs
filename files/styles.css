@@ -67,10 +67,15 @@ form button {
 }
 
 #messages {
-	display: block;
+	padding:auto;
+	margin: auto;
+	position: fixed;
 	list-style-type: none;
-	padding: auto;
-	align-content: left;
+	height: 67%;
+	overflow: auto;
+	margin-bottom: 200px;
+	bottom: 0;
+	width: 75%;
 }
 
 #messages li {
@@ -97,5 +102,3 @@ form button {
 #message-time li:nth-child(odd) {
 	background: rgba(140, 206, 206, 0.61);
 }
-
-@media (max-width: 525px) {}

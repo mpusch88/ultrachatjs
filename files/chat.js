@@ -4,8 +4,6 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var users = {};
-
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
 });
@@ -40,8 +38,8 @@ io.on('connection', function(socket) {
 			time = 'Yesterday ' + moment(msg.time).format('h:mm a');
 		}
 
-		io.emit('message', msg);
-		io.emit('timeStamp', time);
+		let out = time + ' | ' + msg;
+		io.emit('message', out);
 	});
 });
 

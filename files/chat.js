@@ -1,8 +1,10 @@
-var moment = require('moment');
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var moment = require('moment');
+
+var users = {};
 
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
@@ -30,16 +32,10 @@ io.on('connection', function(socket) {
 
 	socket.on('message', function(msg) {
 
-		let time = moment(msg.time).format('MMM Do h:mm a');
+		let time = moment(msg.time).format('h:mm a');
+		msg = time + ' | ' + msg;
 
-		if (moment().isSame(moment(msg.time), 'day')) {
-			time = moment(msg.time).format('h:mm a');
-		} else if (moment().subtract(1, 'day').isSame(moment(msg.time), 'day')) {
-			time = 'Yesterday ' + moment(msg.time).format('h:mm a');
-		}
-
-		let out = time + ' | ' + msg;
-		io.emit('message', out);
+		io.emit('message', msg);
 	});
 });
 

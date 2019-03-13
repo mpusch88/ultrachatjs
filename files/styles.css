@@ -13,12 +13,20 @@ body {
 }
 
 h1,
-h2,
+h2 {
+	text-align: center;
+	padding: 5px;
+	margin: 10px;
+
+}
+
 h3,
 h4 {
 	text-align: center;
 	padding: 5px;
 	margin: 10px;
+	border-bottom-style: inset;
+	border-color: #000000dd;
 }
 
 header {
@@ -67,15 +75,12 @@ form button {
 }
 
 #messages {
-	padding:auto;
-	margin: auto;
-	position: fixed;
-	list-style-type: none;
-	height: 67%;
+	position: absolute;
+	max-height: 88%;
+	min-width: 100%;
 	overflow: auto;
-	margin-bottom: 200px;
 	bottom: 0;
-	width: 75%;
+	list-style-type: none;
 }
 
 #messages li {
@@ -83,22 +88,25 @@ form button {
 	min-height: 34px;
 }
 
-#messages li:nth-child(odd) {
-	background: rgba(140, 206, 206, 0.61);
+.chat {
+	display: inline-block;
+	position: fixed;
+	left: 15px;
+	bottom: 5px;
+	height: 68%;
+	width: 69%;
+	margin-bottom: 200px;
+	background-color: #00000033;
+	text-align: left;
 }
 
-#message-time {
-	display: block;
-	list-style-type: none;
-	padding: auto;
-	align-content: right;
-}
-
-#message-time li {
-	padding: 5px 10px;
-	min-height: 34px;
-}
-
-#message-time li:nth-child(odd) {
-	background: rgba(140, 206, 206, 0.61);
+.user-display {
+	display: inline-block;
+	position: fixed;
+	right: 15px;
+	bottom: 5px;
+	height: 68%;
+	width: 28%;
+	margin-bottom: 200px;
+	background-color: #00000033;
 }

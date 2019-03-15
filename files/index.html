@@ -11,28 +11,31 @@
 </head>
 
 <body>
-	<header class='header'>
+	<header>
 		<h1>UltraChat Online</h1>
 	</header>
 
-	<div>
+	<div class='app-body'>
 
-		<div class='chat'>
-			<h3>Messages</h3>
+		<div class='messages'>
+			<h3 class='section-title'>Messages</h3>
 			<ul id='messages'></ul>
 		</div>
 
-		<div class='user-display'>
-			<h3>User List</h3>
-			<ul id='users'></ul>
+		<div class='user-list'>
+			<h3 class='section-title'>User List</h3>
+			<ul id='users'>
+				<li>user1</li>
+				<li>user2</li>
+			</ul>
 		</div>
 
-		<form action="">
+		<form>
 			<input id="m" autocomplete="off" />
 			<button>Send</button>
 		</form>
-
 	</div>
+
 	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
@@ -60,13 +63,13 @@
 			element.scrollTop = element.scrollHeight;
 		});
 
-        socket.on('dc', function(msg) {
+		socket.on('dc', function(msg) {
 			$('#messages').append($('<li>').text(msg));
 
 			var element = document.getElementById("messages");
 			element.scrollTop = element.scrollHeight;
-        });
-        
+		});
+
 		socket.on('message', function(msg) {
 			$('#messages').append($('<li>').text(msg));
 

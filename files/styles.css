@@ -30,40 +30,32 @@ h4 {
 }
 
 header {
+	display: block;
 	text-align: center;
 	font-size: 111%;
 	text-emphasis: bold;
 	color: #FFFFFF;
 	padding: 0px;
 	margin: auto;
-}
-
-.header {
 	background-color: #000000bb;
-	width: 77%;
-}
-
-.space {
-	min-height: 50px;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+	min-height: 0%;
 }
 
 form {
+	display: block;
 	background: rgb(11, 76, 129);
 	position: fixed;
+	margin-top: auto;
 	padding: 15px;
+	min-height: 100px;
 	width: 100%;
 	bottom: 0;
 }
 
 form input {
 	padding: 10px;
-	min-height: 100px;
+	height: 100px;
+	min-height: 30px;
 	width: 100%;
 }
 
@@ -77,36 +69,63 @@ form button {
 #messages {
 	position: absolute;
 	max-height: 88%;
-	min-width: 100%;
-	overflow: auto;
+	width: 100%;
+	overflow-y: auto;
 	bottom: 0;
 	list-style-type: none;
+	padding: 0;
 }
 
 #messages li {
 	padding: 5px 10px;
 	min-height: 34px;
+	max-width: 100%;
+	overflow-x: auto;
 }
 
-.chat {
+#users {
+	position: absolute;
+	max-height: 88%;
+	width: 100%;
+	overflow-y: auto;
+	list-style-type: none;
+	padding: 0;
+
+}
+
+#users li {
+	padding: 1px 8px;
+	max-width: 100%;
+	overflow-x: auto;
+}
+
+.section-title {
+	display: block;
+	position: relative;
+}
+
+.messages {
 	display: inline-block;
-	position: fixed;
-	left: 15px;
-	bottom: 5px;
-	height: 68%;
-	width: 69%;
-	margin-bottom: 200px;
-	background-color: #00000033;
+	position: relative;
+	margin: auto;
+	height: 71vh;
+	width: 68%;
+	background-color: #03020233;
 	text-align: left;
+	padding-left: 5px;
 }
 
-.user-display {
+.user-list {
 	display: inline-block;
-	position: fixed;
-	right: 15px;
-	bottom: 5px;
-	height: 68%;
+	position: relative;
+	margin: auto;
+	height: 71vh;
 	width: 28%;
-	margin-bottom: 200px;
 	background-color: #00000033;
+	text-align: center;
+}
+
+.app-body {
+	display: block;
+	position: relative;
 }

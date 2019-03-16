@@ -40,7 +40,10 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 	$(function() {
+
 		var socket = io();
+		var userName = null;
+		var userList = [];
 
 		var element = document.getElementById("messages");
 		element.scrollTop = element.scrollHeight;
@@ -57,7 +60,7 @@
 		});
 
 		socket.on('join', function(joinMsg) {
-			$('#messages').append($('<li class="info">').text(msg));
+			$('#messages').append($('<li class="info">').text(joinMsg));
 
 			let gapper = $('<li class="gap">');
 			$('#messages').append(gapper);
@@ -66,8 +69,11 @@
 			element.scrollTop = element.scrollHeight;
 		});
 
-		socket.on('dc', function(msg) {
-			$('#messages').append($('<li>').text(msg));
+		socket.on('dc', function(disMsg) {
+			$('#messages').append($('<li class="info">').text(disMsg));
+
+			let gapper = $('<li class="gap">');
+			$('#messages').append(gapper);
 
 			var element = document.getElementById("messages");
 			element.scrollTop = element.scrollHeight;
@@ -93,6 +99,13 @@
 			var element = document.getElementById("messages");
 			element.scrollTop = element.scrollHeight;
 		});
+
+		socket.on('updateUsers', function(newList) {
+			userList = newList;
+			for (let i = 0; i < userList.length; i++) {
+				$('#messages').append($('<li class="info">').text(userList[i]));
+			}
+		})
 	});
 
 	</script>

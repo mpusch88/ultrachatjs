@@ -4,8 +4,9 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var moment = require('moment');
 
+var sockets = [];
 var users = [];
-var userNum = 1;
+var userNum = 0;
 
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
@@ -24,6 +25,21 @@ io.on('connection', function(socket) {
 	userNum++;
 	io.emit('join', ('User' + userNum + ' joined...'));
 
+	sockets.push(socket);
+	sockets[sockets.indexOf(socket)].name = 'User' + userNum;
+
+	users.push(sockets[sockets.indexOf(socket)].name);
+	io.emit('updateUsers', users);
+
+	// socket.on('disconnect', function() {
+	// 	if (users[users.indexOf(socket)].n == null) {      //console.log('Guest disconnect!');
+	// } else {
+	// 		io.emit('info', "User " + users[users.indexOf(socket)].n + " disconnected.");
+	// 	}
+	// 	users.splice(users.indexOf(socket), 1);
+	// 	io.emit('users list', getUsersList());
+	// });
+
 	socket.on('disconnect', function() {
 		var dc = 'User disconnected...';
 		io.emit('dc', dc);
@@ -38,39 +54,14 @@ io.on('connection', function(socket) {
 		io.emit('message', msg, time); // username
 	});
 
-	// socket.on('start', function(){
-	// 	socket.emit('nick', "guest"+incr);
-	// 	clients[clients.indexOf(socket)].n = "guest"+incr;
-	// 	incr++;
-	// 	io.emit('users list', getUsersList());
-	//   });
-
-	// socket.on('set nick', function(nick){
-	// 	io.emit('info', "New user: " + nick);
-	// 	users[users.indexOf(socket)].n = nick;
-	// 	io.emit('users list', getUsersList());
-	//   });
-
-	//   socket.on('typing', function(){
-	// 	io.emit('typing signal', setUserTyping(users.indexOf(socket)));
-	//   });
-
-	//   socket.on('not typing', function(){
-	// 	io.emit('typing signal', getUsersList());
-	//   });
-
-	// socket.on('disconnect', function() {
-	// 	if (users[users.indexOf(socket)].n == null) {      //console.log('Guest disconnect!');
-	// } else {
-	// 		io.emit('info', "User " + users[users.indexOf(socket)].n + " disconnected.");
-	// 	}
-	// 	users.splice(users.indexOf(socket), 1);
+	// socket.on('nickname', function(name) {
+	//	let msg = 
+	// 	io.emit('join', "New user: " + name);
+	// 	users[users.indexOf(socket)].n = name;
 	// 	io.emit('users list', getUsersList());
 	// });
 
 });
-
-io.emit('some event', { for: 'everyone' });
 
 http.listen(3000, function() {
 	console.log('Server started!');

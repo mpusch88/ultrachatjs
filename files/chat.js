@@ -21,9 +21,11 @@ app.get('/favicon.png', function(req, res) {
 });
 
 io.on('connection', function(socket) {
-
 	userNum++;
-	io.emit('join', ('User' + userNum + ' joined...'));
+	console.log(userNum);
+
+	let name = ('User' + userNum);
+	io.emit('join', name);
 
 	sockets.push(socket);
 	sockets[sockets.indexOf(socket)].name = 'User' + userNum;
@@ -31,36 +33,37 @@ io.on('connection', function(socket) {
 	users.push(sockets[sockets.indexOf(socket)].name);
 	io.emit('updateUsers', users);
 
-	// socket.on('disconnect', function() {
-	// 	if (users[users.indexOf(socket)].n == null) {      //console.log('Guest disconnect!');
-	// } else {
-	// 		io.emit('info', "User " + users[users.indexOf(socket)].n + " disconnected.");
-	// 	}
-	// 	users.splice(users.indexOf(socket), 1);
-	// 	io.emit('users list', getUsersList());
-	// });
-
 	socket.on('disconnect', function() {
-		var dc = 'User disconnected...';
-		io.emit('dc', dc);
+
+		io.emit('dc', sockets[sockets.indexOf(socket)].name + ' disconnected.');
+
+		sockets.splice(sockets.indexOf(socket), 1);
+		users = [];
+		
+		for(let i = 0; i < sockets.length; i++){
+			users[i] = sockets[i].name;
+		}
+
+		io.emit('updateUsers', users);
 	});
 
 	socket.on('message', function(msg) {
-
-		// let userName = ....
-
 		let time = moment(msg.time).format('h:mm a');
+		let userName = sockets[sockets.indexOf(socket)].name;
 
-		io.emit('message', msg, time); // username
+		io.emit('message', msg, time, userName);
 	});
 
-	// socket.on('nickname', function(name) {
-	//	let msg = 
-	// 	io.emit('join', "New user: " + name);
-	// 	users[users.indexOf(socket)].n = name;
-	// 	io.emit('users list', getUsersList());
-	// });
+	socket.on('nickname', function(newName) {
+		io.emit('join', newName);
+		sockets[sockets.indexOf(socket)].name = newName;
 
+		for (let i = 0; i < sockets.length; i++) {
+			users[i] = sockets[i].name;
+		}
+
+		io.emit('updateUsers', users);
+	});
 });
 
 http.listen(3000, function() {

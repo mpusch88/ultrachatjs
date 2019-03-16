@@ -24,14 +24,12 @@
 
 		<div class='user-list'>
 			<h3 class='section-title'>User List</h3>
-			<ul id='users'>
-				<li>user1</li>
-				<li>user2</li>
-			</ul>
+			<ul id='users'></ul>
 		</div>
 
 		<form>
 			<input id="m" autocomplete="off" />
+			<div id="userID" class='current-user'></div>
 			<button>Send</button>
 		</form>
 	</div>
@@ -51,7 +49,25 @@
 		$('form').submit(function(e) {
 			e.preventDefault();
 
-			if ($('#m').val() != '') {
+			let parser = $('#m').val().split(' ');
+
+			console.log(parser);
+
+			if (parser[0] == '/nickname' && parser.length >= 2) {
+
+				let name = '';
+
+				for (let i = 0; i < parser.length; i++) {
+					if (i == parser.length - 1) {
+						name.append(parser[i]);
+					} else {
+						name.append(parser[i] + ' ');
+					}
+				}
+
+				socket.emit('nickname', name);
+
+			} else if ($('#m').val() != '') {
 				socket.emit('message', $('#m').val());
 			}
 
@@ -59,8 +75,12 @@
 			return false;
 		});
 
-		socket.on('join', function(joinMsg) {
-			$('#messages').append($('<li class="info">').text(joinMsg));
+		socket.on('join', function(name) {
+			$('#messages').append($('<li class="info">').text(name + 'connected...'));
+
+			userName = name;	// probably sets all users to nickname name if it works,
+
+			$('#userID').add("Current User: " + name);
 
 			let gapper = $('<li class="gap">');
 			$('#messages').append(gapper);
@@ -69,8 +89,8 @@
 			element.scrollTop = element.scrollHeight;
 		});
 
-		socket.on('dc', function(disMsg) {
-			$('#messages').append($('<li class="info">').text(disMsg));
+		socket.on('dc', function(msg) {
+			$('#messages').append($('<li class="info">').text(msg));
 
 			let gapper = $('<li class="gap">');
 			$('#messages').append(gapper);
@@ -102,9 +122,15 @@
 
 		socket.on('updateUsers', function(newList) {
 			userList = newList;
+
+			$('#users').empty();
+
 			for (let i = 0; i < userList.length; i++) {
-				$('#messages').append($('<li class="info">').text(userList[i]));
+				$('#users').append($('<li class="userName">').text(userList[i]));
 			}
+
+			var element = document.getElementById("messages");
+			element.scrollTop = element.scrollHeight;
 		})
 	});
 

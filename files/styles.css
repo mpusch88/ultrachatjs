@@ -142,10 +142,20 @@ form button {
 	font-weight: bold;
 }
 
+.userName {
+	font-weight: bold;
+}
+
 .msg {
 	display: inline;
 }
 
 .info {
 	display: inline;
+}
+
+.current-user {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 111%;
 }

@@ -56,8 +56,11 @@
 			return false;
 		});
 
-		socket.on('join', function(msg) {
-			$('#messages').append($('<li>').text(msg));
+		socket.on('join', function(joinMsg) {
+			$('#messages').append($('<li class="info">').text(msg));
+
+			let gapper = $('<li class="gap">');
+			$('#messages').append(gapper);
 
 			var element = document.getElementById("messages");
 			element.scrollTop = element.scrollHeight;
@@ -70,8 +73,22 @@
 			element.scrollTop = element.scrollHeight;
 		});
 
-		socket.on('message', function(msg) {
-			$('#messages').append($('<li>').text(msg));
+		socket.on('message', function(msg, time, userName) {
+
+			let timeMsg = $('<li class="time">');
+			timeMsg.append(time);
+			$('#messages').append(timeMsg);
+
+			let userMsg = $('<li class="user">');
+			userMsg.append(" " + userName);
+			$('#messages').append(userMsg);
+
+			let msgMsg = $('<li class="msg">');
+			msgMsg.append("  " + msg);
+			$('#messages').append(msgMsg);
+
+			let gapper = $('<li class="gap">');
+			$('#messages').append(gapper);
 
 			var element = document.getElementById("messages");
 			element.scrollTop = element.scrollHeight;

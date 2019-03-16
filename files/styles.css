@@ -68,7 +68,7 @@ form button {
 
 #messages {
 	position: absolute;
-	max-height: 88%;
+	max-height: 79%;
 	width: 100%;
 	overflow-y: auto;
 	bottom: 0;
@@ -85,7 +85,7 @@ form button {
 
 #users {
 	position: absolute;
-	max-height: 88%;
+	max-height: 79%;
 	width: 100%;
 	overflow-y: auto;
 	list-style-type: none;
@@ -108,18 +108,19 @@ form button {
 	display: inline-block;
 	position: relative;
 	margin: auto;
-	height: 55vh;
+	height: 50vh;
 	width: 68%;
 	background-color: #03020233;
 	text-align: left;
 	padding-left: 5px;
+	line-height: 50%;
 }
 
 .user-list {
 	display: inline-block;
 	position: relative;
 	margin: auto;
-	height: 55vh;
+	height: 50vh;
 	width: 28%;
 	background-color: #00000033;
 	text-align: center;
@@ -128,4 +129,23 @@ form button {
 .app-body {
 	display: block;
 	position: relative;
+}
+
+.time {
+	display: inline;
+	font-size: 88%;
+	color: #464646;
+}
+
+.user {
+	display: inline;
+	font-weight: bold;
+}
+
+.msg {
+	display: inline;
+}
+
+.info {
+	display: inline;
 }

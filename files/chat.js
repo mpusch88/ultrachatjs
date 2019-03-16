@@ -4,8 +4,8 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var moment = require('moment');
 
-var users = {};
-var count = 0;
+var users = [];
+var userNum = 1;
 
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
@@ -20,9 +20,9 @@ app.get('/favicon.png', function(req, res) {
 });
 
 io.on('connection', function(socket) {
-	count++;
-	console.log('User' + count + ' connected...');
-	io.emit('join', 'User joined...');
+
+	userNum++;
+	io.emit('join', ('User' + userNum + ' joined...'));
 
 	socket.on('disconnect', function() {
 		var dc = 'User disconnected...';
@@ -31,11 +31,43 @@ io.on('connection', function(socket) {
 
 	socket.on('message', function(msg) {
 
-		let time = moment(msg.time).format('h:mm a');
-		msg = time + ' | ' + msg;
+		// let userName = ....
 
-		io.emit('message', msg);
+		let time = moment(msg.time).format('h:mm a');
+
+		io.emit('message', msg, time); // username
 	});
+
+	// socket.on('start', function(){
+	// 	socket.emit('nick', "guest"+incr);
+	// 	clients[clients.indexOf(socket)].n = "guest"+incr;
+	// 	incr++;
+	// 	io.emit('users list', getUsersList());
+	//   });
+
+	// socket.on('set nick', function(nick){
+	// 	io.emit('info', "New user: " + nick);
+	// 	users[users.indexOf(socket)].n = nick;
+	// 	io.emit('users list', getUsersList());
+	//   });
+
+	//   socket.on('typing', function(){
+	// 	io.emit('typing signal', setUserTyping(users.indexOf(socket)));
+	//   });
+
+	//   socket.on('not typing', function(){
+	// 	io.emit('typing signal', getUsersList());
+	//   });
+
+	// socket.on('disconnect', function() {
+	// 	if (users[users.indexOf(socket)].n == null) {      //console.log('Guest disconnect!');
+	// } else {
+	// 		io.emit('info', "User " + users[users.indexOf(socket)].n + " disconnected.");
+	// 	}
+	// 	users.splice(users.indexOf(socket), 1);
+	// 	io.emit('users list', getUsersList());
+	// });
+
 });
 
 io.emit('some event', { for: 'everyone' });

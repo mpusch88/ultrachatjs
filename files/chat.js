@@ -21,11 +21,10 @@ app.get('/favicon.png', function(req, res) {
 });
 
 io.on('connection', function(socket) {
-	userNum++;
-	console.log(userNum);
 
+	userNum++;
 	let name = ('User' + userNum);
-	io.emit('join', name);
+	io.emit('join', (name + ' joined...'));
 
 	sockets.push(socket);
 	sockets[sockets.indexOf(socket)].name = 'User' + userNum;
@@ -34,13 +33,11 @@ io.on('connection', function(socket) {
 	io.emit('updateUsers', users);
 
 	socket.on('disconnect', function() {
-
 		io.emit('dc', sockets[sockets.indexOf(socket)].name + ' disconnected.');
-
 		sockets.splice(sockets.indexOf(socket), 1);
 		users = [];
-		
-		for(let i = 0; i < sockets.length; i++){
+
+		for (let i = 0; i < sockets.length; i++) {
 			users[i] = sockets[i].name;
 		}
 
@@ -50,19 +47,7 @@ io.on('connection', function(socket) {
 	socket.on('message', function(msg) {
 		let time = moment(msg.time).format('h:mm a');
 		let userName = sockets[sockets.indexOf(socket)].name;
-
 		io.emit('message', msg, time, userName);
-	});
-
-	socket.on('nickname', function(newName) {
-		io.emit('join', newName);
-		sockets[sockets.indexOf(socket)].name = newName;
-
-		for (let i = 0; i < sockets.length; i++) {
-			users[i] = sockets[i].name;
-		}
-
-		io.emit('updateUsers', users);
 	});
 });
 

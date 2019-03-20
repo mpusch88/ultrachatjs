@@ -142,16 +142,16 @@ form button {
 	font-weight: bold;
 }
 
-.userName {
-	font-weight: bold;
-}
-
 .msg {
 	display: inline;
 }
 
 .info {
 	display: inline;
+}
+
+.userName {
+	font-weight: bold;
 }
 
 .current-user {
